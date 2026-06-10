@@ -1081,7 +1081,7 @@ function renderDashboard() {
   document.getElementById('dash-empty').style.display = 'none';
   document.getElementById('queue-table').style.display = 'table';
 
-  visits.sort((a,b) => a.timestamp - b.timestamp).forEach((visit, idx) => {
+visits.sort((a,b) => b.timestamp - a.timestamp).forEach((visit, idx) => {
     const patient = appData.patients.find(p => p.id === visit.patientId);
     if (!patient) return;
     const badge = visit.status === 'Pending' ? '<span class="badge-pending">Pending</span>' : '<span class="badge-complete">Done</span>';
