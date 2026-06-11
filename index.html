@@ -8,6 +8,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<!-- PDF Generation Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
 <script>
 tailwind.config = {
   darkMode: 'class',
@@ -176,7 +181,7 @@ tailwind.config = {
     <div style="position:absolute;width:40%;height:40%;background:rgba(99,102,241,.15);border-radius:50%;filter:blur(80px);animation:pulse 2s infinite;"></div>
     <div style="position:absolute;width:30%;height:30%;background:rgba(6,182,212,.1);border-radius:50%;filter:blur(60px);animation:pulse 2s .5s infinite;"></div>
     <div class="logo-enter" style="position:relative;text-align:center;">
-      <img src="Docly_Logo.png" alt="Docly Logo" style="width:96px;height:96px;object-fit:contain;border-radius:28px;margin:0 auto 16px;box-shadow:0 20px 60px rgba(99,102,241,.4);display:block;">
+      <img src="Docly_Logo.png" onerror="this.src='https://placehold.co/96x96/6366f1/ffffff?text=D'" alt="Docly Logo" style="width:96px;height:96px;object-fit:contain;border-radius:28px;margin:0 auto 16px;box-shadow:0 20px 60px rgba(99,102,241,.4);display:block;">
       <div style="font-size:2.5rem;font-weight:900;background:linear-gradient(135deg,#6366f1,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-.03em;">Docly</div>
       <div style="color:var(--muted);font-size:.875rem;margin-top:4px;font-weight:500;">Powered by AKSBytes</div>
     </div>
@@ -188,7 +193,7 @@ tailwind.config = {
   <div class="dark:hidden" style="position:absolute;inset:0;background:linear-gradient(135deg,#f8fafc,#e0e7ff 50%,#cffafe);"></div>
   <div class="glass card fade-in" style="width:100%;max-width:420px;padding:2.5rem;position:relative;z-index:1;box-shadow:0 24px 64px rgba(99,102,241,.15);">
     <div style="text-align:center;margin-bottom:2rem;">
-      <img src="Docly_Logo.png" alt="Docly Logo" style="width:96px;height:96px;object-fit:contain;border-radius:28px;margin:0 auto 16px;box-shadow:0 20px 60px rgba(99,102,241,.4);display:block;">
+      <img src="Docly_Logo.png" onerror="this.src='https://placehold.co/96x96/6366f1/ffffff?text=D'" alt="Docly Logo" style="width:96px;height:96px;object-fit:contain;border-radius:28px;margin:0 auto 16px;box-shadow:0 20px 60px rgba(99,102,241,.4);display:block;">
       <h1 style="font-size:1.75rem;font-weight:800;letter-spacing:-.03em;color:var(--text);">Docly</h1>
       <p style="color:var(--muted);font-size:.875rem;margin-top:4px;">Sign in to your workspace</p>
     </div>
@@ -243,7 +248,7 @@ tailwind.config = {
   <aside id="sidebar" style="width:256px;min-width:256px;height:100vh;background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;">
     <!-- Logo -->
     <div style="padding:1.25rem 1.25rem 1rem;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);">
-      <img src="Docly_Logo.png" alt="Docly Logo" style="width:36px;height:36px;object-fit:contain;border-radius:10px;flex-shrink:0;">
+      <img src="Docly_Logo.png" onerror="this.src='https://placehold.co/36x36/6366f1/ffffff?text=D'" alt="Docly Logo" style="width:36px;height:36px;object-fit:contain;border-radius:10px;flex-shrink:0;">
       <span style="font-size:1.25rem;font-weight:800;letter-spacing:-.03em;color:var(--text);">Docly</span>
       <button onclick="closeSidebar()" id="sidebar-close-btn" style="margin-left:auto;display:none;background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;"><i class="fa-solid fa-xmark text-lg"></i></button>
     </div>
@@ -275,7 +280,7 @@ tailwind.config = {
     <!-- User -->
     <div style="padding:1rem 1.25rem 2.5rem 1.25rem;border-top:1px solid var(--border);">
       <div style="display:flex;align-items:center;gap:10px;background:var(--surface);border-radius:12px;padding:.75rem;margin-bottom:.75rem;">
-        <img id="user-avatar" src="AKSBytes_Logo.png" alt="Aaryan Singh Avatar" style="width:36px;height:36px;border-radius:10px;object-fit:cover;flex-shrink:0;">
+        <img id="user-avatar" src="AKSBytes_Logo.png" onerror="this.src='https://placehold.co/36x36/cbd5e1/ffffff?text=A'" alt="Avatar" style="width:36px;height:36px;border-radius:10px;object-fit:cover;flex-shrink:0;">
         <div style="overflow:hidden;min-width:0;">
           <p id="user-name-display" style="font-weight:700;font-size:.875rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text);">AKSBytes</p>
           <p id="user-role-display" style="font-size:.7rem;color:var(--muted);">Powered by AKSBytes</p>
@@ -731,6 +736,47 @@ tailwind.config = {
   </div>
 </div>
 
+<!-- ===== SEND MED (PRESCRIPTION) MODAL ===== -->
+<div id="med-modal" class="modal-bg" style="display:none;">
+  <div class="modal-box" style="max-width:550px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+      <h3 style="font-size:1.25rem;font-weight:800;color:var(--text);"><i class="fa-solid fa-file-prescription mr-2" style="color:var(--brand)"></i>Send Prescription</h3>
+      <button onclick="closeModal('med-modal')" style="width:32px;height:32px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    
+    <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.15);border-radius:12px;padding:1rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+      <div>
+        <p style="font-size:.7rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;">Patient Name</p>
+        <p id="med-patient-name" style="font-weight:700;color:var(--text);font-size:.9rem;">—</p>
+      </div>
+      <div>
+        <p style="font-size:.7rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;">Phone Number</p>
+        <p id="med-patient-phone" style="font-weight:700;color:var(--text);font-size:.9rem;">—</p>
+      </div>
+      <input type="hidden" id="med-visit-id">
+    </div>
+
+    <form onsubmit="handleSendMed(event)" autocomplete="off">
+      <div style="margin-bottom:1.5rem;">
+        <label style="font-size:.75rem;font-weight:700;color:var(--muted);display:block;margin-bottom:10px;text-transform:uppercase;">Prescribe Medicines</label>
+        
+        <div id="med-container" style="display:flex;flex-direction:column;gap:10px;">
+          <!-- Dynamic fields will be added here -->
+        </div>
+
+        <button type="button" onclick="addMedField()" style="margin-top:10px;font-size:.8rem;font-weight:600;color:var(--brand);background:rgba(99,102,241,.1);border:1px dashed var(--brand);padding:.5rem 1rem;border-radius:8px;width:100%;cursor:pointer;transition:.2s;" onmouseover="this.style.background='rgba(99,102,241,.15)'" onmouseout="this.style.background='rgba(99,102,241,.1)'">
+          <i class="fa-solid fa-plus mr-1"></i>Add Medicine Box
+        </button>
+      </div>
+
+      <div style="display:flex;gap:.75rem;">
+        <button type="button" onclick="closeModal('med-modal')" class="btn-ghost">Cancel</button>
+        <button type="submit" class="btn-primary" style="flex:1;background:linear-gradient(135deg, #10b981, #059669);"><i class="fa-brands fa-whatsapp mr-2"></i>Generate PDF & Send</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <!-- ===== NOTIFICATIONS MODAL ===== -->
 <div id="notifications-modal" class="modal-bg" style="display:none;">
   <div class="modal-box" style="max-width:520px;">
@@ -870,7 +916,6 @@ document.getElementById('login-form').addEventListener('submit', e => {
 });
 
 function logout() {
-  // Reload hone se pehle hi main app ko instantly hide kar dein
   const mainApp = document.getElementById('main-app');
   if (mainApp) mainApp.style.display = 'none';
 
@@ -888,17 +933,14 @@ function initApp() {
   if (window.innerWidth < 768) { mh.style.display = 'flex'; document.getElementById('sidebar-close-btn').style.display = 'flex'; }
 
   // User display
-
   if (role === 'developer') {
     document.getElementById('user-name-display').textContent = 'AKSBytes';
     document.getElementById('user-role-display').textContent = 'powered by AKSBytes';
-    document.getElementById('user-avatar').src = 'AKSBytes_Logo.png'; 
     document.getElementById('dev-nav-section').style.display = 'block';
     nav('dev');
   } else {
     document.getElementById('user-name-display').textContent = 'AKSBytes';
     document.getElementById('user-role-display').textContent = 'powered by AKSBytes';
-    document.getElementById('user-avatar').src = 'AKSBytes_Logo.png'; 
 
     // Check freeze
     if (appData.frozen) {
@@ -970,7 +1012,7 @@ function prepareRegistrationForm() {
   document.getElementById('input-unique-id').value = uid;
   document.getElementById('display-datetime').textContent = formatDateDisplay(getTodayStr());
   toggleUpiInput(false);
-  // reset payment opt UI
+  
   document.querySelectorAll('.pay-opt').forEach(o => {
     o.style.background = 'var(--surface)'; o.style.borderColor = 'var(--border)'; o.style.color = 'var(--muted)';
   });
@@ -1061,7 +1103,6 @@ function renderDashboard() {
   document.getElementById('stat-completed').textContent = visits.filter(v => v.status === 'Completed').length;
   document.getElementById('stat-revenue').textContent = '₹' + visits.reduce((s,v) => s + (parseInt(v.fees)||0), 0).toLocaleString('en-IN');
 
-  // Period label
   const start = document.getElementById('filter-start')?.value;
   const end = document.getElementById('filter-end')?.value;
   let label = 'Showing: Today';
@@ -1081,13 +1122,19 @@ function renderDashboard() {
   document.getElementById('dash-empty').style.display = 'none';
   document.getElementById('queue-table').style.display = 'table';
 
-visits.sort((a,b) => b.timestamp - a.timestamp).forEach((visit, idx) => {
+  visits.sort((a,b) => b.timestamp - a.timestamp).forEach((visit, idx) => {
     const patient = appData.patients.find(p => p.id === visit.patientId);
     if (!patient) return;
+    
     const badge = visit.status === 'Pending' ? '<span class="badge-pending">Pending</span>' : '<span class="badge-complete">Done</span>';
-    const action = visit.status === 'Pending'
-      ? `<button onclick="markComplete(${visit.id})" style="font-size:.75rem;padding:.4rem .875rem;border-radius:8px;background:var(--text);color:var(--card);border:none;cursor:pointer;font-weight:600;transition:.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">Mark Done</button>`
-      : `<span style="font-size:.75rem;color:var(--muted);"><i class="fa-solid fa-check mr-1"></i>Done</span>`;
+    
+    // NEW ACTION BUTTONS (Mark Done + Send Med)
+    const action = `<div style="display:flex;gap:8px;align-items:center;">` +
+      (visit.status === 'Pending'
+        ? `<button onclick="markComplete(${visit.id})" style="font-size:.7rem;padding:.45rem .75rem;border-radius:8px;background:var(--text);color:var(--card);border:none;cursor:pointer;font-weight:600;white-space:nowrap;transition:.2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">Mark Done</button>`
+        : `<span style="font-size:.75rem;color:var(--muted);white-space:nowrap;padding:.45rem .75rem;"><i class="fa-solid fa-check mr-1"></i>Done</span>`) +
+      `<button onclick="openMedModal(${visit.id})" style="font-size:.7rem;padding:.45rem .75rem;border-radius:8px;background:rgba(16,185,129,.1);color:#059669;border:1px solid rgba(16,185,129,.3);cursor:pointer;font-weight:600;white-space:nowrap;transition:.2s;" onmouseover="this.style.background='#10b981';this.style.color='#fff'"><i class="fa-solid fa-file-prescription mr-1"></i>Send Med</button>
+    </div>`;
 
     tbody.innerHTML += `<tr>
       <td style="font-weight:700;color:#6366f1;font-family:'JetBrains Mono',monospace;">${idx+1}</td>
@@ -1104,6 +1151,146 @@ visits.sort((a,b) => b.timestamp - a.timestamp).forEach((visit, idx) => {
 function markComplete(visitId) {
   const v = appData.visits.find(x => x.id === visitId);
   if (v) { v.status = 'Completed'; saveData(); renderDashboard(); toast('Patient marked as completed.', 'success'); }
+}
+
+// ===================== SEND MED (PRESCRIPTION) =====================
+function openMedModal(visitId) {
+  const visit = appData.visits.find(x => x.id === visitId);
+  if (!visit) return;
+  const patient = appData.patients.find(p => p.id === visit.patientId);
+  if (!patient) return;
+
+  document.getElementById('med-visit-id').value = visit.id;
+  document.getElementById('med-patient-name').textContent = patient.name;
+  document.getElementById('med-patient-phone').textContent = patient.phone;
+
+  // Reset container
+  const container = document.getElementById('med-container');
+  container.innerHTML = '';
+  addMedField(); // Add one default field
+
+  document.getElementById('med-modal').style.display = 'flex';
+}
+
+function addMedField() {
+  const container = document.getElementById('med-container');
+  const div = document.createElement('div');
+  div.style.cssText = 'display:flex;gap:8px;align-items:center;';
+  div.innerHTML = `
+    <input type="text" class="inp med-input-val" placeholder="e.g. Paracetamol 500mg - 1x0x1" required style="flex:1;">
+    <button type="button" onclick="this.parentElement.remove()" style="width:38px;height:38px;border-radius:10px;border:none;background:rgba(239,68,68,.1);color:#ef4444;cursor:pointer;transition:.2s;" onmouseover="this.style.background='#ef4444';this.style.color='#fff'"><i class="fa-solid fa-trash"></i></button>
+  `;
+  container.appendChild(div);
+}
+
+function handleSendMed(e) {
+  e.preventDefault();
+  const visitId = document.getElementById('med-visit-id').value;
+  const visit = appData.visits.find(x => x.id == visitId);
+  const patient = appData.patients.find(p => p.id == visit.patientId);
+  
+  // Get all medicines
+  const medInputs = document.querySelectorAll('.med-input-val');
+  const medicines = [];
+  medInputs.forEach(input => {
+    if(input.value.trim() !== '') medicines.push(input.value.trim());
+  });
+
+  if(medicines.length === 0) {
+    toast('Please enter at least one medicine', 'warning');
+    return;
+  }
+
+  generateAndSendPDF(patient, visit, medicines);
+}
+
+function generateAndSendPDF(patient, visit, medicines) {
+  if (!window.jspdf) { toast('PDF Library failed to load.', 'error'); return; }
+  
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  // --- Header Layout ---
+  // Clinic Name
+  doc.setFontSize(22);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(30, 58, 138); // Dark blue branding
+  doc.text("Advance Dental Clinic", 105, 20, { align: "center" });
+
+  // Clinic Details
+  doc.setFontSize(10);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(100, 100, 100);
+  doc.text("Shop no. 1, Uday gaidwar Building Jimmibaug, Kalyan East", 105, 28, { align: "center" });
+  doc.text("Phone: 08007202286", 105, 34, { align: "center" });
+
+  // Divider Line
+  doc.setDrawColor(200, 200, 200);
+  doc.setLineWidth(0.5);
+  doc.line(14, 40, 196, 40);
+
+  // --- Patient & Doctor Info ---
+  doc.setFontSize(11);
+  doc.setTextColor(40, 40, 40);
+  
+  doc.setFont("helvetica", "bold");
+  doc.text("Patient Name:", 14, 50);
+  doc.setFont("helvetica", "normal");
+  doc.text(patient.name, 45, 50);
+
+  doc.setFont("helvetica", "bold");
+  doc.text("Age / Gender:", 14, 58);
+  doc.setFont("helvetica", "normal");
+  doc.text(patient.age.toString() + " yrs", 45, 58);
+
+  doc.setFont("helvetica", "bold");
+  doc.text("Doctor:", 120, 50);
+  doc.setFont("helvetica", "normal");
+  doc.text(visit.doctor.split('(')[0].trim(), 140, 50);
+
+  doc.setFont("helvetica", "bold");
+  doc.text("Date:", 120, 58);
+  doc.setFont("helvetica", "normal");
+  doc.text(new Date().toLocaleDateString('en-GB'), 140, 58);
+
+  // Rx Symbol
+  doc.setFontSize(16);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(0, 0, 0);
+  doc.text("Rx", 14, 75);
+
+  // --- Medicine Table ---
+  const tableData = medicines.map((med, index) => [index + 1, med]);
+  
+  doc.autoTable({
+    startY: 82,
+    head: [['Sr No.', 'Medicine Name & Dosage']],
+    body: tableData,
+    theme: 'grid',
+    headStyles: { fillColor: [99, 102, 241], textColor: [255, 255, 255], fontStyle: 'bold' },
+    styles: { fontSize: 11, cellPadding: 6 },
+    columnStyles: { 0: { cellWidth: 20, halign: 'center' } }
+  });
+
+  // Save PDF locally automatically
+  const filename = `Prescription_${patient.name.replace(/\s+/g, '_')}_${getTodayStr()}.pdf`;
+  doc.save(filename);
+
+  // Open WhatsApp Link
+  const waMessage = `Hello ${patient.name},\n\nYour prescription from *Advance Dental Clinic* is ready. Please find the PDF document attached below. \n\nGet well soon!\n- Dr. ${visit.doctor.split('(')[0].trim()}`;
+  const waUrl = `https://wa.me/91${patient.phone}?text=${encodeURIComponent(waMessage)}`;
+  
+  window.open(waUrl, '_blank');
+
+  // Close modal and show instruction
+  closeModal('med-modal');
+  
+  Swal.fire({
+    title: 'Prescription Generated!',
+    html: 'PDF has been <b>downloaded</b> to your device.<br/><br/>WhatsApp is opening in a new tab. Please drag & drop or attach the downloaded PDF in the chat.',
+    icon: 'success',
+    confirmButtonColor: '#10b981'
+  });
 }
 
 // ===================== SEARCH =====================
@@ -1445,7 +1632,6 @@ document.addEventListener('DOMContentLoaded', updateFormLayout);
 function updatePagePadding() {
   const pc = document.getElementById('page-content');
   if (!pc) return;
-  // Mobile par bottom mein 5rem (extra space) add kar diya hai
   pc.style.padding = window.innerWidth < 768 ? '1rem 1rem 5rem 1rem' : '1.5rem 2rem';
 }
 window.addEventListener('resize', updatePagePadding);
