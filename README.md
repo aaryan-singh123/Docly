@@ -79,7 +79,7 @@ It features three access levels: **Developer**, **Receptionist**, and a **Softwa
 | SheetJS (XLSX) | Excel export |
 | SweetAlert2 | Popup dialogs |
 | Supabase | Backend database, auth & real-time data |
-| localStorage | Client-side session & settings |
+| Supabase | Client-side session & settings |
 | WhatsApp API | Patient messaging via wa.me |
 
 ---
