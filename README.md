@@ -135,12 +135,6 @@ Visit **[doclyscms.netlify.app](https://doclyscms.netlify.app/)** and login:
 
 ---
 
-## 📸 Screenshots
-
-> *(Add screenshots of Dashboard, Patient Registration, Prescription Modal here)*
-
----
-
 ## 💡 What I Built & Learned
 
 - **Supabase integration** — real-time database, authentication and secure data storage
