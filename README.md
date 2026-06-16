@@ -1,6 +1,13 @@
 # 🏥 Docly — Smart Clinic Management System
 
-> A full-featured, single-file clinic reception & patient management system with role-based access, real-time dashboard, PDF prescriptions, and WhatsApp integration.
+> A full-featured clinic reception & patient management system with role-based access, real-time dashboard, PDF prescriptions, and WhatsApp integration — backed by **Supabase**.
+
+🔗 **[Live Demo → doclyscms.netlify.app](https://doclyscms.netlify.app/)**
+
+| Role | Username | Password |
+|------|----------|----------|
+| Receptionist | `user` | `1234` |
+| Developer | `Demo_Dev` | `1234` |
 
 ---
 
@@ -71,7 +78,8 @@ It features three access levels: **Developer**, **Receptionist**, and a **Softwa
 | jsPDF + AutoTable | PDF prescription generation |
 | SheetJS (XLSX) | Excel export |
 | SweetAlert2 | Popup dialogs |
-| localStorage | Client-side data persistence |
+| Supabase | Backend database, auth & real-time data |
+| localStorage | Client-side session & settings |
 | WhatsApp API | Patient messaging via wa.me |
 
 ---
@@ -110,17 +118,20 @@ Docly (Single File Application)
 
 ## 🚀 How To Use
 
-**Option 1 — Direct (No setup needed)**
-1. Download `index.html`
-2. Open in any browser
-3. Login with default credentials:
-   - Receptionist: `aks` / `aks`
-   - Developer: `aksbytes` / `aksbytes`
-4. Change credentials from Settings after first login
+**Option 1 — Live Demo (No setup needed)**
 
-**Option 2 — Deploy**
-- Upload `index.html` to any static hosting (Netlify, GitHub Pages, Vercel)
-- No backend or database required — runs entirely in the browser
+Visit **[doclyscms.netlify.app](https://doclyscms.netlify.app/)** and login:
+
+| Role | Username | Password |
+|------|----------|----------|
+| Receptionist | `user` | `1234` |
+| Developer | `Demo_Dev` | `1234` |
+
+**Option 2 — Run Locally**
+1. Clone the repository
+2. Create a Supabase project at [supabase.com](https://supabase.com)
+3. Add your Supabase URL and anon key in `index.html`
+4. Open `index.html` in browser — done!
 
 ---
 
@@ -132,7 +143,8 @@ Docly (Single File Application)
 
 ## 💡 What I Built & Learned
 
-- **Single File Architecture** — entire app (UI + logic + state) in one HTML file, no build tools needed
+- **Supabase integration** — real-time database, authentication and secure data storage
+- **Single File Architecture** — entire UI + logic in one HTML file, no build tools needed
 - **Role-Based Access Control** from scratch using vanilla JS
 - **PDF generation** in the browser using jsPDF with AutoTable plugin
 - **localStorage state management** — structured like a mini-database with patients, visits, settings, credentials
@@ -145,7 +157,6 @@ Docly (Single File Application)
 ## 👨‍💻 Author
 
 **AaryanKumar Singh**
-BSC IT — Mumbai University
 [GitHub](https://github.com/aaryan-singh123) · [Email](mailto:aaksingh909@gmail.com)
 
 ---
